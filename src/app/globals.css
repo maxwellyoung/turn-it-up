@@ -1,0 +1,29 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+body {
+  font-family: var(--font-pantasia), monospace;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-pantasia), serif;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
