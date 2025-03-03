@@ -1,5 +1,47 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .instagram-link {
+    @apply relative inline-block text-zinc-900 transition-colors duration-300;
+  }
+
+  .instagram-link::after {
+    @apply content-[''] absolute left-0 bottom-0 w-0 h-[1px] bg-emerald-500 transition-all duration-300 ease-in-out;
+  }
+
+  .instagram-link:hover {
+    @apply text-emerald-500;
+  }
+
+  .instagram-link:hover::after {
+    @apply w-full;
+  }
+}
+
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: white;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #e4e4e7;
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d8;
+}
 
 body {
   font-family: var(--font-pantasia), monospace;
