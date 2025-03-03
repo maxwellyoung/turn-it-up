@@ -2,11 +2,29 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Play, ExternalLink, X, ChevronDown, ChevronUp } from "lucide-react";
+import QuestionTrail from "@/components/QuestionTrail";
+import SpotlightOverlay from "@/components/SpotlightOverlay";
 
 export default function Home() {
   const [enlargedPhoto, setEnlargedPhoto] = useState<number | null>(null);
   const [showLyrics, setShowLyrics] = useState(false);
+  const [trailPosition, setTrailPosition] = useState({ x: 0, y: 0 });
+  const [showTrail, setShowTrail] = useState(false);
+  const [isTextAnimating, setIsTextAnimating] = useState(false);
+
+  const handleMouseEnter = (e: React.MouseEvent) => {
+    const hoverPos = { x: e.clientX, y: e.clientY };
+    setTrailPosition(hoverPos);
+    setShowTrail(true);
+    setIsTextAnimating(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowTrail(false);
+    setIsTextAnimating(false);
+  };
 
   const images = [
     "/photos/1.jpeg",
@@ -53,7 +71,7 @@ export default function Home() {
             <div className="text-zinc-500">DURATION:</div>
             <div>02:17</div>
             <div className="text-zinc-500">BPM:</div>
-            <div>128</div>
+            <div>120</div>
             <div className="text-zinc-500">GENRE:</div>
             <div>POP</div>
             <div className="text-zinc-500">PRODUCED BY:</div>
@@ -202,8 +220,41 @@ export default function Home() {
               THOM HAHA
             </a>
           </div>
-          <div>WHERE HAVE YOU BEEN</div>
+          <motion.div
+            className="cursor-pointer relative z-50"
+            animate={
+              isTextAnimating
+                ? {
+                    color: "#8DB187",
+                    textShadow: "0 0 10px rgba(141,177,135,0.3)",
+                  }
+                : {
+                    color: "#000",
+                    textShadow: "0 0 0 rgba(141,177,135,0)",
+                  }
+            }
+            transition={{
+              duration: 0.3,
+              ease: "easeOut",
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onMouseMove={handleMouseEnter}
+          >
+            WHERE HAVE YOU BEEN
+          </motion.div>
         </div>
+
+        <QuestionTrail
+          mouseX={trailPosition.x}
+          mouseY={trailPosition.y}
+          isActive={showTrail}
+        />
+        <SpotlightOverlay
+          mouseX={trailPosition.x}
+          mouseY={trailPosition.y}
+          isActive={showTrail}
+        />
       </div>
 
       {/* Enlarged Photo Modal */}
