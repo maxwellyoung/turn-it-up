@@ -5,8 +5,8 @@ import Matter from "matter-js";
 
 export default function PhysicsSimulation() {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const engineRef = useRef<Matter.Engine>();
-  const renderRef = useRef<Matter.Render>();
+  const engineRef = useRef<Matter.Engine | null>(null);
+  const renderRef = useRef<Matter.Render | null>(null);
 
   useEffect(() => {
     if (!sceneRef.current) return;
@@ -50,8 +50,8 @@ export default function PhysicsSimulation() {
     };
 
     const wallThickness = 50;
-    const width = render.options.width;
-    const height = render.options.height;
+    const width = render.options.width!;
+    const height = render.options.height!;
 
     const walls = [
       Bodies.rectangle(
@@ -85,7 +85,7 @@ export default function PhysicsSimulation() {
     ];
 
     // Create objects
-    const objects = [];
+    const objects: Matter.Body[] = [];
     const colors = ["#22c55e", "#16a34a", "#15803d"];
 
     const createObject = (x: number, y: number) => {
@@ -182,12 +182,12 @@ export default function PhysicsSimulation() {
       if (renderRef.current) {
         Render.stop(renderRef.current);
         renderRef.current.canvas.remove();
-        renderRef.current = undefined;
+        renderRef.current = null;
       }
 
       if (engineRef.current) {
         Engine.clear(engineRef.current);
-        engineRef.current = undefined;
+        engineRef.current = null;
       }
     };
   }, []);
