@@ -164,7 +164,7 @@ export default function Home() {
               controls
               autoPlay
               loop
-              src="/turnitup.mov"
+              src="/turnitup.mp4"
               style={{ colorScheme: "dark" }}
             />
           </div>
