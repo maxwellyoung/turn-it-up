@@ -27,7 +27,7 @@ export default function Home() {
   };
 
   const images = [
-    "/photos/1.jpeg",
+//    "/photos/1.jpeg",
     "/photos/2.jpeg",
     "/photos/3.jpeg",
     "/photos/4.jpeg",
