@@ -27,7 +27,7 @@ export default function Home() {
   };
 
   const images = [
-//    "/photos/1.jpeg",
+    //    "/photos/1.jpeg",
     "/photos/2.jpeg",
     "/photos/3.jpeg",
     "/photos/4.jpeg",
@@ -192,7 +192,7 @@ export default function Home() {
               controls
               autoPlay
               loop
-              src="/turnitup.mp4"
+              src="https://np4w69e6wb.ufs.sh/f/L9QjVBA1Po9ryfI80TZrmwE9h1XzAjoZvJciTdqp7exIfH62"
               style={{ colorScheme: "light" }}
             />
           </div>
