@@ -44,6 +44,21 @@ const nextConfig = {
     optimizeCss: true,
     optimizePackageImports: ["framer-motion", "lucide-react"],
   },
+  optimizeFonts: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.optimization.splitChunks.cacheGroups.styles = {
+        name: "styles",
+        test: /\.(css|scss)$/,
+        chunks: "all",
+        enforce: true,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

@@ -326,11 +326,11 @@ export default function TeaserPage() {
       </div>
 
       {/* Content wrapper */}
-      <div className="relative z-10 h-full w-full flex flex-col items-center justify-between p-8">
+      <div className="relative z-10 h-full w-full flex flex-col items-center justify-between p-4 md:p-8">
         {/* Header */}
         <div className="w-full flex justify-between items-start">
           <motion.p
-            className="text-black mix-blend-difference text-sm md:text-base"
+            className="text-black mix-blend-difference text-xs md:text-sm lg:text-base"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
@@ -342,19 +342,19 @@ export default function TeaserPage() {
         {/* Main content */}
         <div className="flex-1 w-full flex flex-col justify-center relative">
           <motion.h1
-            className="absolute top-1/4 left-1/4 transform -translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            className="absolute top-1/3 md:top-1/4 left-1/2 md:left-1/4 transform -translate-x-1/2 text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-pantasia text-white"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             TURN
           </motion.h1>
 
           <motion.div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl md:text-2xl text-white/90 font-pantasia"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-pantasia"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             <AnimatedNumber value={countdown.days} />d{" "}
             <AnimatedNumber value={countdown.hours} />h{" "}
@@ -363,10 +363,10 @@ export default function TeaserPage() {
           </motion.div>
 
           <motion.h1
-            className="absolute bottom-1/4 right-1/4 transform translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            className="absolute bottom-1/3 md:bottom-1/4 right-1/2 md:right-1/4 transform translate-x-1/2 text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-pantasia text-white"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             IT UP
           </motion.h1>
@@ -379,47 +379,47 @@ export default function TeaserPage() {
         />
 
         {/* Controls and footer */}
-        <div className="relative z-20 w-full flex justify-between items-end">
+        <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-4 md:gap-0">
           <motion.div
-            className="flex space-x-4 relative z-20"
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex space-x-2 md:space-x-4 relative z-20"
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             <button
               onClick={togglePlay}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-colors"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors"
               disabled={!!audioError}
             >
-              {isPlaying ? <Pause size={24} /> : <Play size={24} />}
+              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
             </button>
             <button
               onClick={toggleMute}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-colors"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors"
               disabled={!!audioError}
             >
-              {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+              {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
             </button>
             <button
               onClick={shareTeaser}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-3 rounded-full hover:bg-black/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSharing}
             >
-              <Share2 size={24} />
+              <Share2 size={20} />
             </button>
             <button
               onClick={toggleGame}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white w-12 h-12 flex items-center justify-center rounded-full hover:bg-black/40 transition-colors"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full hover:bg-black/40 transition-colors"
             >
               🛒
             </button>
           </motion.div>
 
           <motion.div
-            className="text-right text-sm"
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            className="text-center md:text-right text-xs md:text-sm"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             <p className="text-black mix-blend-difference">© 2025</p>
             <a
@@ -456,6 +456,7 @@ export default function TeaserPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center"
           >
             <ShopliftingGame onClose={() => setShowGame(false)} />
@@ -471,12 +472,17 @@ export default function TeaserPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
           >
             {particlesData.map((particle, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-white rounded-full"
-                animate={particle}
+                animate={{
+                  opacity: particle.opacity,
+                  rotate: particle.rotate,
+                  backgroundColor: particle.color,
+                }}
                 transition={{
                   duration: 0.1,
                   ease: "linear",
