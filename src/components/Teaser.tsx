@@ -33,6 +33,9 @@ export default function TeaserPage() {
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number>();
   const controls = useAnimation();
+  const [particlesData, setParticlesData] = useState(
+    Array(40).fill({ scale: 1, opacity: 0.7, rotate: 0, color: "#fff" })
+  );
 
   useEffect(() => {
     const releaseDate = new Date("2025-03-14T00:00:00");
@@ -181,6 +184,59 @@ export default function TeaserPage() {
     }
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (!isPlaying || !analyserRef.current) return;
+
+    analyserRef.current.fftSize = 512;
+    const bufferLength = analyserRef.current.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    const updateParticles = () => {
+      if (!analyserRef.current) return;
+
+      analyserRef.current.getByteFrequencyData(dataArray);
+
+      setParticlesData((prevParticles) =>
+        prevParticles.map((_, i) => {
+          const bassIndex = Math.floor(dataArray.length * 0.1);
+          const midIndex = Math.floor(dataArray.length * 0.5);
+          const highIndex = Math.floor(dataArray.length * 0.9);
+
+          const bass =
+            dataArray.slice(0, bassIndex).reduce((a, b) => a + b, 0) /
+            bassIndex;
+          const mid =
+            dataArray.slice(bassIndex, midIndex).reduce((a, b) => a + b, 0) /
+            (midIndex - bassIndex);
+          const high =
+            dataArray.slice(midIndex, highIndex).reduce((a, b) => a + b, 0) /
+            (highIndex - midIndex);
+
+          const intensity = (bass + mid + high) / (255 * 3);
+          const hue = (bass / 255) * 360;
+          const size = 1 + (mid / 255) * 3;
+          const speed = 1 + (high / 255) * 2;
+
+          return {
+            scale: size * (1 + Math.sin(Date.now() * 0.003 * speed + i) * 0.5),
+            opacity: 0.4 + intensity * 0.6,
+            rotate: (Date.now() * 0.1 * speed + i * 45) % 360,
+            color: `hsl(${hue}, 80%, 60%)`,
+          };
+        })
+      );
+
+      animationFrameRef.current = requestAnimationFrame(updateParticles);
+    };
+
+    updateParticles();
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isPlaying]);
+
   const togglePlay = async () => {
     if (audioRef.current) {
       try {
@@ -286,7 +342,7 @@ export default function TeaserPage() {
         {/* Main content */}
         <div className="flex-1 w-full flex flex-col justify-center relative">
           <motion.h1
-            className="absolute top-1/4 left-1/4 transform -translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia font-bold text-white"
+            className="absolute top-1/4 left-1/4 transform -translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -307,7 +363,7 @@ export default function TeaserPage() {
           </motion.div>
 
           <motion.h1
-            className="absolute bottom-1/4 right-1/4 transform translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia font-bold text-white"
+            className="absolute bottom-1/4 right-1/4 transform translate-x-1/2 text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -416,24 +472,22 @@ export default function TeaserPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {[...Array(20)].map((_, i) => (
+            {particlesData.map((particle, i) => (
               <motion.div
                 key={i}
                 className="absolute w-1 h-1 bg-white rounded-full"
-                animate={{
-                  scale: [1, 2, 1],
-                  opacity: [0.7, 0.2, 0.7],
+                animate={particle}
+                transition={{
+                  duration: 0.1,
+                  ease: "linear",
+                }}
+                style={{
                   x: `calc(${mousePosition.x}px + ${
-                    Math.random() * 200 - 100
+                    Math.sin(i) * 200 - 100
                   }px)`,
                   y: `calc(${mousePosition.y}px + ${
-                    Math.random() * 200 - 100
+                    Math.cos(i) * 200 - 100
                   }px)`,
-                }}
-                transition={{
-                  duration: Math.random() * 2 + 1,
-                  repeat: Number.POSITIVE_INFINITY,
-                  repeatType: "reverse",
                 }}
               />
             ))}

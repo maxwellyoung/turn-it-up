@@ -1,7 +1,14 @@
 import localFont from "next/font/local";
 
 export const pantasia = localFont({
-  src: "../fonts/Pantasia.ttf",
+  src: [
+    {
+      path: "../fonts/Pantasia.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   variable: "--font-pantasia",
-  display: "swap",
+  display: "block",
+  preload: true,
 });
