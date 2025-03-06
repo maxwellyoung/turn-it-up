@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TURN IT UP
+
+A groundbreaking music release website for Maxwell Young & Thom Haha's collaboration, built with Next.js 14, TypeScript, and Tailwind CSS.
+
+## Features
+
+- Interactive teaser page with countdown timer
+- Dynamic audio visualizer with particle effects
+- Embedded mini-game for user engagement
+- Responsive design for all devices
+- Social media sharing integration
+- High-performance animations using Framer Motion
+
+## Prerequisites
+
+- Node.js 18.17 or later
+- pnpm (recommended) or npm
+- Git LFS (for handling large media files)
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/where-have-you-been.git
+   cd where-have-you-been
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Set up environment variables:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Edit `.env.local` with your configuration.
+
+4. Run the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) to view the site.
+
+## Environment Variables
+
+- `NEXT_PUBLIC_RELEASE_DATE`: Release date in ISO format
+- `NEXT_PUBLIC_SITE_URL`: Production site URL (https://wherehaveyoubeen.blog)
+- `NEXT_PUBLIC_GA_ID`: Google Analytics ID (optional)
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables in Vercel dashboard
+3. Deploy with `vercel --prod`
+
+### Self-hosted
+
+1. Build the application:
+
+   ```bash
+   pnpm build
+   ```
+
+2. Start the production server:
+   ```bash
+   pnpm start
+   ```
+
+## Development Guidelines
+
+### Code Style
+
+- Follow TypeScript best practices
+- Use ESLint and Prettier for code formatting
+- Follow the component structure in `src/components`
+
+### Testing
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run unit tests
+pnpm test
+
+# Run e2e tests
+pnpm test:e2e
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Performance Optimization
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Images are optimized using Next.js Image component
+- Fonts are preloaded and optimized
+- Critical CSS is inlined
+- Assets are served from CDN in production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Maintenance
 
-## Learn More
+### Regular Tasks
 
-To learn more about Next.js, take a look at the following resources:
+1. Update dependencies monthly
+2. Check for security vulnerabilities
+3. Monitor error logs
+4. Update content as needed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Monitoring
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Use Vercel Analytics for performance monitoring
+- Set up error tracking (e.g., Sentry)
+- Monitor server logs regularly
 
-## Deploy on Vercel
+## Security
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- CSP headers implemented
+- Regular security audits
+- Protected API routes
+- Sanitized user inputs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Copyright © 2025 Maxwell Young & Thom Haha. All rights reserved.
+
+## Support
+
+For support, contact:
+
+- Technical issues: [GitHub Issues](https://github.com/yourusername/where-have-you-been/issues)
+- Content updates: Contact project maintainers

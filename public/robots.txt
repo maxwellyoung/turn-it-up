@@ -1,0 +1,12 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://wherehaveyoubeen.blog/sitemap.xml
+
+# Prevent access to API routes
+Disallow: /api/
+
+# Prevent access to admin routes
+Disallow: /admin/ 

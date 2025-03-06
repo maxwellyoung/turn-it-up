@@ -278,7 +278,7 @@ export default function TeaserPage() {
 
     const teaserText =
       "Something big is coming. TURN IT UP. 🎵 #TurnItUp #ComingSoon";
-    const teaserUrl = "https://turnitup.com";
+    const teaserUrl = "https://wherehaveyoubeen.blog";
 
     if (navigator.share) {
       try {
