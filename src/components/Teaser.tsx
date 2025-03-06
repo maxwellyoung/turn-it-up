@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { Play, Pause, Volume2, VolumeX, Share2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { ShopliftingGame } from "./ShopliftingGame";
 import AnimatedNumber from "./AnimatedNumber";
 import Image from "next/image";
@@ -22,7 +22,6 @@ export default function TeaserPage() {
   const [easterEggRevealed, setEasterEggRevealed] = useState(false);
   const [keySequence, setKeySequence] = useState("");
   const [showGame, setShowGame] = useState(false);
-  const [isSharing, setIsSharing] = useState(false);
 
   const [audioError, setAudioError] = useState<string | null>(null);
 
@@ -273,38 +272,6 @@ export default function TeaserPage() {
     });
   };
 
-  const shareTeaser = async () => {
-    if (isSharing) return;
-
-    const teaserText =
-      "Something big is coming. TURN IT UP. 🎵 #TurnItUp #ComingSoon";
-    const teaserUrl = "https://wherehaveyoubeen.blog";
-
-    if (navigator.share) {
-      try {
-        setIsSharing(true);
-        await navigator.share({
-          title: "TURN IT UP - Coming Soon",
-          text: teaserText,
-          url: teaserUrl,
-        });
-      } catch (error) {
-        if (error instanceof Error && error.name !== "AbortError") {
-          console.error("Error sharing:", error);
-        }
-      } finally {
-        setIsSharing(false);
-      }
-    } else {
-      window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-          teaserText
-        )}&url=${encodeURIComponent(teaserUrl)}`,
-        "_blank"
-      );
-    }
-  };
-
   const toggleGame = () => {
     setShowGame((prev) => !prev);
   };
@@ -399,13 +366,6 @@ export default function TeaserPage() {
               disabled={!!audioError}
             >
               {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-            </button>
-            <button
-              onClick={shareTeaser}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isSharing}
-            >
-              <Share2 size={20} />
             </button>
             <button
               onClick={toggleGame}
