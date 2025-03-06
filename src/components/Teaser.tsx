@@ -17,7 +17,7 @@ export default function TeaserPage() {
     seconds: 0,
   });
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [easterEggRevealed, setEasterEggRevealed] = useState(false);
   const [keySequence, setKeySequence] = useState("");
