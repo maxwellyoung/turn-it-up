@@ -32,9 +32,6 @@ export default function TeaserPage() {
   const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number>();
   const controls = useAnimation();
-  const [particlesData, setParticlesData] = useState(
-    Array(40).fill({ scale: 1, opacity: 0.7, rotate: 0, color: "#fff" })
-  );
 
   useEffect(() => {
     const releaseDate = new Date("2025-03-14T00:00:00");
@@ -183,59 +180,6 @@ export default function TeaserPage() {
     }
   }, [isPlaying]);
 
-  useEffect(() => {
-    if (!isPlaying || !analyserRef.current) return;
-
-    analyserRef.current.fftSize = 512;
-    const bufferLength = analyserRef.current.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const updateParticles = () => {
-      if (!analyserRef.current) return;
-
-      analyserRef.current.getByteFrequencyData(dataArray);
-
-      setParticlesData((prevParticles) =>
-        prevParticles.map((_, i) => {
-          const bassIndex = Math.floor(dataArray.length * 0.1);
-          const midIndex = Math.floor(dataArray.length * 0.5);
-          const highIndex = Math.floor(dataArray.length * 0.9);
-
-          const bass =
-            dataArray.slice(0, bassIndex).reduce((a, b) => a + b, 0) /
-            bassIndex;
-          const mid =
-            dataArray.slice(bassIndex, midIndex).reduce((a, b) => a + b, 0) /
-            (midIndex - bassIndex);
-          const high =
-            dataArray.slice(midIndex, highIndex).reduce((a, b) => a + b, 0) /
-            (highIndex - midIndex);
-
-          const intensity = (bass + mid + high) / (255 * 3);
-          const hue = (bass / 255) * 360;
-          const size = 1 + (mid / 255) * 3;
-          const speed = 1 + (high / 255) * 2;
-
-          return {
-            scale: size * (1 + Math.sin(Date.now() * 0.003 * speed + i) * 0.5),
-            opacity: 0.4 + intensity * 0.6,
-            rotate: (Date.now() * 0.1 * speed + i * 45) % 360,
-            color: `hsl(${hue}, 80%, 60%)`,
-          };
-        })
-      );
-
-      animationFrameRef.current = requestAnimationFrame(updateParticles);
-    };
-
-    updateParticles();
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [isPlaying]);
-
   const togglePlay = async () => {
     if (audioRef.current) {
       try {
@@ -307,9 +251,9 @@ export default function TeaserPage() {
         </div>
 
         {/* Main content */}
-        <div className="flex-1 w-full flex flex-col justify-center relative">
+        <div className="flex-1 w-full flex flex-col justify-center relative px-4 md:px-8">
           <motion.h1
-            className="absolute top-1/3 md:top-1/4 left-1/2 md:left-1/4 transform -translate-x-1/2 text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-pantasia text-white"
+            className="absolute top-[30%] md:top-1/4 left-[15%] md:left-1/4 transform -translate-x-0 md:-translate-x-1/2 text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -318,7 +262,7 @@ export default function TeaserPage() {
           </motion.h1>
 
           <motion.div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-pantasia"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-pantasia tracking-wider"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -330,7 +274,7 @@ export default function TeaserPage() {
           </motion.div>
 
           <motion.h1
-            className="absolute bottom-1/3 md:bottom-1/4 right-1/2 md:right-1/4 transform translate-x-1/2 text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-pantasia text-white"
+            className="absolute bottom-[30%] md:bottom-1/4 right-[15%] md:right-1/4 transform translate-x-0 md:translate-x-1/2 text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-pantasia text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -346,23 +290,23 @@ export default function TeaserPage() {
         />
 
         {/* Controls and footer */}
-        <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-center md:items-end gap-4 md:gap-0">
+        <div className="relative z-20 w-full flex flex-col md:flex-row justify-between items-end gap-6 md:gap-0 p-4 md:p-8">
           <motion.div
-            className="flex space-x-2 md:space-x-4 relative z-20"
+            className="flex space-x-3 relative z-20 w-full md:w-auto justify-end md:justify-start"
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <button
               onClick={togglePlay}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full hover:bg-black/40 transition-colors"
               disabled={!!audioError}
             >
               {isPlaying ? <Pause size={20} /> : <Play size={20} />}
             </button>
             <button
               onClick={toggleMute}
-              className="relative z-20 bg-black/30 backdrop-blur-md text-white p-2 md:p-3 rounded-full hover:bg-black/40 transition-colors"
+              className="relative z-20 bg-black/30 backdrop-blur-md text-white w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full hover:bg-black/40 transition-colors"
               disabled={!!audioError}
             >
               {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
@@ -376,7 +320,7 @@ export default function TeaserPage() {
           </motion.div>
 
           <motion.div
-            className="text-center md:text-right text-xs md:text-sm"
+            className="text-right text-xs md:text-sm w-full md:w-auto"
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -420,43 +364,6 @@ export default function TeaserPage() {
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center"
           >
             <ShopliftingGame onClose={() => setShowGame(false)} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Particles effect */}
-      <AnimatePresence>
-        {isPlaying && (
-          <motion.div
-            className="absolute inset-0 pointer-events-none z-30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            {particlesData.map((particle, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-white rounded-full"
-                animate={{
-                  opacity: particle.opacity,
-                  rotate: particle.rotate,
-                  backgroundColor: particle.color,
-                }}
-                transition={{
-                  duration: 0.1,
-                  ease: "linear",
-                }}
-                style={{
-                  x: `calc(${mousePosition.x}px + ${
-                    Math.sin(i) * 200 - 100
-                  }px)`,
-                  y: `calc(${mousePosition.y}px + ${
-                    Math.cos(i) * 200 - 100
-                  }px)`,
-                }}
-              />
-            ))}
           </motion.div>
         )}
       </AnimatePresence>
