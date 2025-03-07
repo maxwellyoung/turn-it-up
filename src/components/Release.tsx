@@ -1,11 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Play, ExternalLink, X, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Play,
+  ExternalLink,
+  X,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import QuestionTrail from "@/components/QuestionTrail";
 import SpotlightOverlay from "@/components/SpotlightOverlay";
+import { ShopliftingGame } from "./ShopliftingGame";
 
 export default function Release() {
   const [enlargedPhoto, setEnlargedPhoto] = useState<number | null>(null);
@@ -13,6 +22,7 @@ export default function Release() {
   const [trailPosition, setTrailPosition] = useState({ x: 0, y: 0 });
   const [showTrail, setShowTrail] = useState(false);
   const [isTextAnimating, setIsTextAnimating] = useState(false);
+  const [showGame, setShowGame] = useState(false);
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     const hoverPos = { x: e.clientX, y: e.clientY };
@@ -35,6 +45,44 @@ export default function Release() {
     "/photos/6.jpeg",
     "/photos/7.jpeg",
   ];
+
+  // Handle keyboard navigation for enlarged photos
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (enlargedPhoto === null) return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setEnlargedPhoto((prev) =>
+          prev === null ? null : prev > 0 ? prev - 1 : images.length - 1
+        );
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setEnlargedPhoto((prev) =>
+          prev === null ? null : prev < images.length - 1 ? prev + 1 : 0
+        );
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        setEnlargedPhoto(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [enlargedPhoto, images.length]);
+
+  // Navigation functions for buttons
+  const navigatePhotos = (direction: "prev" | "next") => {
+    if (direction === "prev") {
+      setEnlargedPhoto((prev) =>
+        prev === null ? null : prev > 0 ? prev - 1 : images.length - 1
+      );
+    } else {
+      setEnlargedPhoto((prev) =>
+        prev === null ? null : prev < images.length - 1 ? prev + 1 : 0
+      );
+    }
+  };
 
   return (
     <main className="h-screen w-screen bg-white text-zinc-900 font-pantasia overflow-hidden text-[10px]">
@@ -126,8 +174,11 @@ export default function Release() {
           <button className="bg-[#8DB187] text-black px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#94B38D] transition-colors">
             <Play size={12} className="mr-2 md:mr-1" /> Listen Now
           </button>
-          <button className="border-2 md:border border-[#8DB187] text-[#8DB187] px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#8DB187]/10 transition-colors">
-            <ExternalLink size={12} className="mr-2 md:mr-1" /> Full Release
+          <button
+            onClick={() => setShowGame(true)}
+            className="border-2 md:border border-[#8DB187] text-[#8DB187] px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#8DB187]/10 transition-colors"
+          >
+            <ExternalLink size={12} className="mr-2 md:mr-1" /> Play Game
           </button>
         </div>
 
@@ -136,10 +187,12 @@ export default function Release() {
           <div className="w-full h-full overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-zinc-200 scroll-smooth">
             <div className="flex gap-2 md:gap-px p-2 md:p-0 min-w-fit">
               {images.map((src, index) => (
-                <div
+                <motion.div
                   key={index}
                   className="w-[150px] md:w-[200px] relative aspect-square filter hover:brightness-125 transition-all duration-300 cursor-pointer bg-white rounded-sm md:rounded-none"
                   onClick={() => setEnlargedPhoto(index)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <Image
                     src={src}
@@ -147,7 +200,7 @@ export default function Release() {
                     fill
                     className="object-cover opacity-80 hover:opacity-100 transition-opacity rounded-sm md:rounded-none"
                   />
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -257,28 +310,77 @@ export default function Release() {
         />
       </div>
 
-      {/* Enlarged Photo Modal */}
-      {enlargedPhoto !== null && (
-        <div
-          className="fixed inset-0 bg-white/90 z-50 flex items-center justify-center"
-          onClick={() => setEnlargedPhoto(null)}
-        >
+      {/* Game overlay */}
+      {showGame && (
+        <div className="fixed inset-0 bg-white/90 z-50 flex items-center justify-center">
           <button
             className="absolute top-4 right-4 text-zinc-900 hover:text-[#8DB187] p-2"
-            onClick={() => setEnlargedPhoto(null)}
+            onClick={() => setShowGame(false)}
           >
             <X size={24} />
           </button>
-          <div className="relative w-[90vw] md:w-[80vw] h-[80vh]">
-            <Image
-              src={images[enlargedPhoto]}
-              alt={`Enlarged image ${enlargedPhoto + 1}`}
-              fill
-              className="object-contain"
-            />
-          </div>
+          <ShopliftingGame onClose={() => setShowGame(false)} />
         </div>
       )}
+
+      {/* Enlarged Photo Modal */}
+      <AnimatePresence>
+        {enlargedPhoto !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-white/90 z-50 flex items-center justify-center"
+            onClick={() => setEnlargedPhoto(null)}
+          >
+            <button
+              className="absolute top-4 right-4 text-zinc-900 hover:text-[#8DB187] p-2"
+              onClick={() => setEnlargedPhoto(null)}
+            >
+              <X size={24} />
+            </button>
+
+            {/* Navigation Buttons */}
+            <button
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-900 hover:text-[#8DB187] p-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigatePhotos("prev");
+              }}
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-900 hover:text-[#8DB187] p-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigatePhotos("next");
+              }}
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            <motion.div
+              className="relative w-[90vw] md:w-[80vw] h-[80vh]"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={images[enlargedPhoto]}
+                alt={`Enlarged image ${enlargedPhoto + 1}`}
+                fill
+                className="object-contain"
+              />
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-zinc-500 text-sm">
+                {enlargedPhoto + 1} / {images.length}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

@@ -6,8 +6,7 @@ import { pantasia } from "@/lib/fonts";
 export const metadata: Metadata = {
   metadataBase: new URL("https://wherehaveyoubeen.blog"),
   title: "TURN IT UP | Maxwell Young & Thom Haha",
-  description:
-    "A new collaboration between Maxwell Young and Thom Haha, releasing March 14, 2025.",
+  description: "A new single by Maxwell Young & Thom Haha",
   keywords: [
     "Maxwell Young",
     "Thom Haha",
@@ -75,8 +74,11 @@ export const metadata: Metadata = {
       },
     ],
   },
-  manifest: "/site.webmanifest",
+  manifest: "/manifest.json",
   other: {
+    "Content-Security-Policy":
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' https:; connect-src 'self' https:; font-src 'self' data:;",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
     "msapplication-TileColor": "#000000",
     "theme-color": "#000000",
   },
@@ -97,11 +99,6 @@ export default function RootLayout({
           as="font"
           type="font/ttf"
           crossOrigin="anonymous"
-        />
-        {/* Content Security Policy */}
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; media-src 'self' https:; connect-src 'self' https:; font-src 'self' data:;"
         />
       </head>
       <body>{children}</body>
