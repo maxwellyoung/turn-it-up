@@ -25,6 +25,16 @@ export default function Release() {
   const [isTextAnimating, setIsTextAnimating] = useState(false);
   const [showGame, setShowGame] = useState(false);
   const [showStreamingLinks, setShowStreamingLinks] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(false);
+
+  useEffect(() => {
+    setIsWideScreen(window.innerWidth >= 768);
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth >= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     const hoverPos = { x: e.clientX, y: e.clientY };
@@ -323,7 +333,7 @@ export default function Release() {
             </motion.div>
           </button>
           <AnimatePresence>
-            {(showLyrics || window.innerWidth >= 768) && (
+            {(showLyrics || isWideScreen) && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}

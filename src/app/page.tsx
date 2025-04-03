@@ -9,8 +9,10 @@ export default function Home() {
   const siteMode = process.env.NEXT_PUBLIC_SITE_MODE || "release";
 
   useEffect(() => {
-    // Track page view
-    pageview(window.location.pathname);
+    // Track page view only on client side
+    if (typeof window !== "undefined") {
+      pageview(window.location.pathname);
+    }
   }, []);
 
   return siteMode === "teaser" ? <Teaser /> : <Release />;
