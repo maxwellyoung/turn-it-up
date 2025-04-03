@@ -23,6 +23,7 @@ export default function Release() {
   const [showTrail, setShowTrail] = useState(false);
   const [isTextAnimating, setIsTextAnimating] = useState(false);
   const [showGame, setShowGame] = useState(false);
+  const [showStreamingLinks, setShowStreamingLinks] = useState(false);
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     const hoverPos = { x: e.clientX, y: e.clientY };
@@ -171,9 +172,78 @@ export default function Release() {
 
         {/* Listen buttons section */}
         <div className="col-span-4 md:col-start-9 md:col-span-4 row-span-1 bg-white p-4 flex items-center justify-end space-x-4">
-          <button className="bg-[#8DB187] text-black px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#94B38D] transition-colors">
-            <Play size={12} className="mr-2 md:mr-1" /> Listen Now
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowStreamingLinks(!showStreamingLinks)}
+              className="bg-[#8DB187] text-black px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#94B38D] transition-colors"
+            >
+              <Play size={12} className="mr-2 md:mr-1" /> Listen Now
+            </button>
+            {showStreamingLinks && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-zinc-200 shadow-lg z-50">
+                <a
+                  href="https://open.spotify.com/album/0UIKSfLQNdEyeEiQzQ912Z?si=c4f1cad4c7df40b0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                >
+                  <Image
+                    src="/spotify.svg"
+                    alt="Spotify"
+                    width={16}
+                    height={16}
+                    className="mr-2"
+                  />
+                  Spotify
+                </a>
+                <a
+                  href="https://music.apple.com/nz/album/turn-it-up-single/1801225424"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                >
+                  <Image
+                    src="/apple-music.svg"
+                    alt="Apple Music"
+                    width={16}
+                    height={16}
+                    className="mr-2"
+                  />
+                  Apple Music
+                </a>
+                <a
+                  href="https://soundcloud.com/maxwell_young/turn-it-up"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                >
+                  <Image
+                    src="/soundcloud.svg"
+                    alt="SoundCloud"
+                    width={16}
+                    height={16}
+                    className="mr-2"
+                  />
+                  SoundCloud
+                </a>
+                <a
+                  href="https://www.youtube.com/watch?v=YzKTnAIGqvg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                >
+                  <Image
+                    src="/youtube.svg"
+                    alt="YouTube"
+                    width={16}
+                    height={16}
+                    className="mr-2"
+                  />
+                  YouTube
+                </a>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => setShowGame(true)}
             className="border-2 md:border border-[#8DB187] text-[#8DB187] px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#8DB187]/10 transition-colors"
