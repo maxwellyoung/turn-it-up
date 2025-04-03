@@ -32,7 +32,7 @@ const nextConfig = {
         {
           key: "Content-Security-Policy",
           value:
-            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com; img-src 'self' data: https: https://www.google-analytics.com; style-src 'self' 'unsafe-inline';",
+            "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com; img-src 'self' data: https: https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; media-src 'self' https://np4w69e6wb.ufs.sh;",
         },
         {
           key: "Permissions-Policy",
