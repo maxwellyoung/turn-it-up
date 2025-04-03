@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     description:
       "A new collaboration between Maxwell Young and Thom Haha, releasing March 14, 2025.",
     creator: "@maxwell_young",
-    images: ["/images/twitter-image.jpg"],
+    images: ["/photos/9.jpeg"],
   },
   robots: {
     index: true,
