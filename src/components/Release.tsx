@@ -15,6 +15,7 @@ import {
 import QuestionTrail from "@/components/QuestionTrail";
 import SpotlightOverlay from "@/components/SpotlightOverlay";
 import { ShopliftingGame } from "./ShopliftingGame";
+import { event as gaEvent } from "@/lib/gtag";
 
 export default function Release() {
   const [enlargedPhoto, setEnlargedPhoto] = useState<number | null>(null);
@@ -83,6 +84,22 @@ export default function Release() {
         prev === null ? null : prev < images.length - 1 ? prev + 1 : 0
       );
     }
+  };
+
+  const handleStreamingClick = (platform: string) => {
+    gaEvent({
+      action: "click",
+      category: "Music",
+      label: `Stream on ${platform}`,
+    });
+  };
+
+  const handleGameClick = () => {
+    gaEvent({
+      action: "click",
+      category: "Game",
+      label: "Open Game",
+    });
   };
 
   return (
@@ -186,6 +203,7 @@ export default function Release() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                  onClick={() => handleStreamingClick("Spotify")}
                 >
                   <Image
                     src="/spotify.svg"
@@ -201,6 +219,7 @@ export default function Release() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                  onClick={() => handleStreamingClick("Apple Music")}
                 >
                   <Image
                     src="/apple-music.svg"
@@ -216,6 +235,7 @@ export default function Release() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                  onClick={() => handleStreamingClick("SoundCloud")}
                 >
                   <Image
                     src="/soundcloud.svg"
@@ -231,6 +251,7 @@ export default function Release() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                  onClick={() => handleStreamingClick("YouTube")}
                 >
                   <Image
                     src="/youtube.svg"
@@ -245,7 +266,10 @@ export default function Release() {
             )}
           </div>
           <button
-            onClick={() => setShowGame(true)}
+            onClick={() => {
+              handleGameClick();
+              setShowGame(true);
+            }}
             className="border-2 md:border border-[#8DB187] text-[#8DB187] px-4 py-2 md:px-3 md:py-1 flex items-center hover:bg-[#8DB187]/10 transition-colors"
           >
             <ExternalLink size={12} className="mr-2 md:mr-1" /> Play Game
