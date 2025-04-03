@@ -57,8 +57,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "TURN IT UP | Maxwell Young & Thom Haha",
     description:
-      "A new collaboration between Maxwell Young and Thom Haha, releasing March 14, 2025.",
-    creator: "@maxwell_young",
+      "A new collaboration between Maxwell Young and Thom Haha, out now.",
+    creator: "@internetmaxwell",
     images: ["/photos/9.jpeg"],
   },
   robots: {
