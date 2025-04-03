@@ -196,74 +196,82 @@ export default function Release() {
             >
               <Play size={12} className="mr-2 md:mr-1" /> Listen Now
             </button>
-            {showStreamingLinks && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-zinc-200 shadow-lg z-50">
-                <a
-                  href="https://open.spotify.com/album/0UIKSfLQNdEyeEiQzQ912Z?si=c4f1cad4c7df40b0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
-                  onClick={() => handleStreamingClick("Spotify")}
+            <AnimatePresence>
+              {showStreamingLinks && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute right-0 mt-2 w-48 bg-white border border-zinc-200 shadow-lg z-50 origin-top"
                 >
-                  <Image
-                    src="/spotify.svg"
-                    alt="Spotify"
-                    width={16}
-                    height={16}
-                    className="mr-2"
-                  />
-                  Spotify
-                </a>
-                <a
-                  href="https://music.apple.com/nz/album/turn-it-up-single/1801225424"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
-                  onClick={() => handleStreamingClick("Apple Music")}
-                >
-                  <Image
-                    src="/apple-music.svg"
-                    alt="Apple Music"
-                    width={16}
-                    height={16}
-                    className="mr-2"
-                  />
-                  Apple Music
-                </a>
-                <a
-                  href="https://soundcloud.com/maxwell_young/turn-it-up"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
-                  onClick={() => handleStreamingClick("SoundCloud")}
-                >
-                  <Image
-                    src="/soundcloud.svg"
-                    alt="SoundCloud"
-                    width={16}
-                    height={16}
-                    className="mr-2"
-                  />
-                  SoundCloud
-                </a>
-                <a
-                  href="https://www.youtube.com/watch?v=YzKTnAIGqvg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
-                  onClick={() => handleStreamingClick("YouTube")}
-                >
-                  <Image
-                    src="/youtube.svg"
-                    alt="YouTube"
-                    width={16}
-                    height={16}
-                    className="mr-2"
-                  />
-                  YouTube
-                </a>
-              </div>
-            )}
+                  <a
+                    href="https://open.spotify.com/album/0UIKSfLQNdEyeEiQzQ912Z?si=c4f1cad4c7df40b0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                    onClick={() => handleStreamingClick("Spotify")}
+                  >
+                    <Image
+                      src="/spotify.svg"
+                      alt="Spotify"
+                      width={16}
+                      height={16}
+                      className="mr-2"
+                    />
+                    Spotify
+                  </a>
+                  <a
+                    href="https://music.apple.com/nz/album/turn-it-up-single/1801225424"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                    onClick={() => handleStreamingClick("Apple Music")}
+                  >
+                    <Image
+                      src="/apple-music.svg"
+                      alt="Apple Music"
+                      width={16}
+                      height={16}
+                      className="mr-2"
+                    />
+                    Apple Music
+                  </a>
+                  <a
+                    href="https://soundcloud.com/maxwell_young/turn-it-up"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                    onClick={() => handleStreamingClick("SoundCloud")}
+                  >
+                    <Image
+                      src="/soundcloud.svg"
+                      alt="SoundCloud"
+                      width={16}
+                      height={16}
+                      className="mr-2"
+                    />
+                    SoundCloud
+                  </a>
+                  <a
+                    href="https://www.youtube.com/watch?v=YzKTnAIGqvg"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block px-4 py-2 text-sm hover:bg-zinc-50 flex items-center"
+                    onClick={() => handleStreamingClick("YouTube")}
+                  >
+                    <Image
+                      src="/youtube.svg"
+                      alt="YouTube"
+                      width={16}
+                      height={16}
+                      className="mr-2"
+                    />
+                    YouTube
+                  </a>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           <button
             onClick={() => {
@@ -307,28 +315,50 @@ export default function Release() {
             className="w-full p-4 flex items-center justify-between md:hidden border-b border-zinc-100"
           >
             <span>LYRICS</span>
-            {showLyrics ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            <motion.div
+              animate={{ rotate: showLyrics ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown size={16} />
+            </motion.div>
           </button>
-          <div className={`${showLyrics ? "block" : "hidden md:block"} p-4`}>
-            <div className="h-[calc(100%-2rem)] overflow-auto pt-2">
-              <div className="font-pantasia flex flex-col gap-4">
-                <div>we were staying up</div>
-                <div>im not there enough</div>
-                <div>had a bad dream</div>
-                <div>all a sudden felt a rush</div>
-                <div>you look back at me</div>
-                <div>im no more deceased</div>
-                <div>had a bad dream</div>
-                <div>all a sudden felt it crush crush crush crush</div>
-                <div>yea we shoplifting</div>
-                <div>grab a cart and fill it up</div>
-                <div>like im weightlifting</div>
-                <div>way i put my head above</div>
-                <div>all the girls with me wanna fuckin it turn up</div>
-                <div>all the girls with me wanna fuckin it turn up</div>
-              </div>
-            </div>
-          </div>
+          <AnimatePresence>
+            {(showLyrics || window.innerWidth >= 768) && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="overflow-hidden md:block"
+              >
+                <div className="p-4">
+                  <div className="h-[calc(100%-2rem)] overflow-auto pt-2">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                      className="font-pantasia flex flex-col gap-4"
+                    >
+                      <div>we were staying up</div>
+                      <div>im not there enough</div>
+                      <div>had a bad dream</div>
+                      <div>all a sudden felt a rush</div>
+                      <div>you look back at me</div>
+                      <div>im no more deceased</div>
+                      <div>had a bad dream</div>
+                      <div>all a sudden felt it crush crush crush crush</div>
+                      <div>yea we shoplifting</div>
+                      <div>grab a cart and fill it up</div>
+                      <div>like im weightlifting</div>
+                      <div>way i put my head above</div>
+                      <div>all the girls with me wanna fuckin it turn up</div>
+                      <div>all the girls with me wanna fuckin it turn up</div>
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Main media area */}
