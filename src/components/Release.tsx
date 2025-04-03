@@ -143,7 +143,7 @@ export default function Release() {
         <div className="col-span-4 md:col-span-8 row-span-auto md:row-span-1 bg-white p-4">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-[10px] md:text-[10px]">
             <div className="text-zinc-500">RELEASE DATE:</div>
-            <div>2025.03.14</div>
+            <div>2025.04.04</div>
             <div className="text-zinc-500">DURATION:</div>
             <div>02:17</div>
             <div className="text-zinc-500">BPM:</div>
