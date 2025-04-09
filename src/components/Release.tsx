@@ -114,7 +114,7 @@ export default function Release() {
 
   return (
     <main className="h-screen w-screen bg-white text-zinc-900 font-pantasia overflow-hidden text-[10px]">
-      <div className="grid grid-cols-4 md:grid-cols-12 grid-rows-[auto] md:grid-rows-6 gap-px h-full bg-zinc-100">
+      <div className="max-w-[2000px] mx-auto grid grid-cols-4 md:grid-cols-12 grid-rows-[auto] md:grid-rows-6 gap-px h-full bg-zinc-100">
         {/* Header */}
         <div className="col-span-4 md:col-span-12 row-span-1 bg-white p-4 flex items-center justify-between">
           <h1>TURN IT UP</h1>
@@ -140,7 +140,7 @@ export default function Release() {
         </div>
 
         {/* Main content - Technical Specs */}
-        <div className="col-span-4 md:col-span-8 row-span-auto md:row-span-1 bg-white p-4">
+        <div className="col-span-4 md:col-span-8 row-span-auto md:row-span-1 bg-white p-4 max-w-[1200px]">
           <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-[10px] md:text-[10px]">
             <div className="text-zinc-500">RELEASE DATE:</div>
             <div>2025.04.04</div>
